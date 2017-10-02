@@ -1,0 +1,30 @@
+{
+  "name": "btcrelay-solidity",
+  "version": "1.0.0",
+  "description": "A BTC SPV Client in Solidity",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "coveralls": "^3.0.0",
+    "ethereumjs-testrpc": "^4.1.3",
+    "solidity-coverage": "^0.2.4",
+    "truffle": "^3.4.11"
+  },
+  "scripts": {
+      "test": "truffle test",
+      "coverage": "./node_modules/.bin/solidity-coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CornellBlockchain/BTCRelay-Solidity.git"
+  },
+  "author": "Cornell Blockchain",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/CornellBlockchain/BTCRelay-Solidity/issues"
+  },
+  "homepage": "https://github.com/CornellBlockchain/BTCRelay-Solidity#readme"
+}
