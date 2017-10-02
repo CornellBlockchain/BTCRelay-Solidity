@@ -10,5 +10,5 @@ install:
   - npm i truffle
   - npm i ethereumjs-testrpc
 
-before_script: ./node_modules/ethereumjs-testrpc/build/cli.node.js &
-script: ./node_modules/truffle/build/cli.bundled.js test
+before_script: `npm bin`/testrpc &
+script: `npm bin`/truffle test
