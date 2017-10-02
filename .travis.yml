@@ -1,14 +1,13 @@
+dist: trusty
 language: node_js
 node_js:
-  - "8"
-
-cache:
-  directories:
-    - "node_modules"
-
+  - '7'
 install:
-  - npm i truffle
-  - npm i ethereumjs-testrpc
-
-before_script: testrpc &
-script: truffle test
+  - npm install
+script:
+  - npm test
+before_script:
+  - testrpc > /dev/null &
+  - sleep 5
+after_script:
+  - npm run coverage && cat coverage/lcov.info | coveralls
