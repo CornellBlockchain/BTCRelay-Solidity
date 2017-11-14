@@ -15,7 +15,7 @@
     "truffle": "^4.0.1"
   },
   "scripts": {
-    "test": "testrpc -l 40000000 & truffle test && kill %1",
+    "test": "truffle test",
     "coverage": "./node_modules/.bin/solidity-coverage"
   },
   "repository": {
