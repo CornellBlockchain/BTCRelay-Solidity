@@ -3,8 +3,3 @@
 
 # BTCRelay-Solidity
 This project implements BTC relay, a medium of exchange for Bitcoin and Ethereum, in solidity
-
-## Testing:
-
-    testrpc -l 40000000 & 
-    truffle test
