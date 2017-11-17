@@ -31,4 +31,10 @@ contract BTCRelay {
   // BTC-style reversed double sha256
   function dblShaFlip(bytes data) pure returns (bytes32){}
 
+  // get parent of 'blockHash'
+  function getPrevBlock(bytes32 blockHash) returns (bytes32) {
+    return blockHeaders[blockHash].prevBlock;
+  }
+
+
 }
