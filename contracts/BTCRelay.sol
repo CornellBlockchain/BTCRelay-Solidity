@@ -23,7 +23,12 @@ contract BTCRelay {
 
   // Computes the target from the compressed "bits" form
   // https://bitcoin.org/en/developer-reference#target-nbits
-  function targetFromBits(uint32 nBits) pure returns (bytes32 target){}
+  function targetFromBits(uint32 nBits) pure returns (bytes32 target){
+    uint exp = uint(nBits) >> 24;
+    uint c = uint(nBits) & 0xffffff;
+    bytes32 result = bytes32(c * 2**(8*(exp - 3)));
+
+    return result;}
 
   // Converts the input to the opposite endianness
   function flip32(bytes32) pure returns (bytes32) {}
