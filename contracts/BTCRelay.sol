@@ -31,9 +31,15 @@ contract BTCRelay {
   // BTC-style reversed double sha256
   function dblShaFlip(bytes data) pure returns (bytes32){}
 
-  // get parent of 'blockHash'
-  function getPrevBlock(bytes32 blockHash) returns (bytes32) {
-    return blockHeaders[blockHash].prevBlock;
+  // get parent of block
+  function getPrevBlock(bytes header) returns (bytes32) {
+    // TODO: reimplement as taking in block header
+    bytes32 tmp;
+    assembly {
+      tmp := mload(add(header, 36))
+    }
+
+    return tmp;
   }
 
 
