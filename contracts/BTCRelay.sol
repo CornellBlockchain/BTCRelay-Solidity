@@ -13,6 +13,7 @@ contract BTCRelay {
 
   mapping(bytes32 => Header) public blockHeaders; // Maps block hashes to headers
 
+  event partialFlip(bytes32 data);
   // storeBlockHeader(header) pareses a length 80 bytes and stores the resulting
   // Header struct in the blockHeaders mapping, where the index is the blockhash
   function storeBlockHeader(bytes header){}
@@ -28,14 +29,14 @@ contract BTCRelay {
   // Converts the input to the opposite endianness
   function flip32(bytes32 le) pure returns (bytes32 be) {
       be = 0x0;
-      for (uint i = 31; i >= 0; i--){
-	  be <<= 8;
-	  be |= le[i];
+      for (uint256 i = 0; i < 32; i++){
+        be >>= 8;
+        be |= le[i];
       }
   }
 
   // BTC-style reversed double sha256
-  function dblShaFlip(bytes data) pure returns (bytes32){
+  function dblShaFlip(bytes data) returns (bytes32){
       return flip32(sha256(sha256(data)));
   }
 

@@ -20,7 +20,7 @@ contract TestBTCRelay {
   }
 
   function testDblShaFlip() {
-    /*
+  /*
     BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
 
     bytes32 data_0 = 0xad10a7b01eab11ca1eaba15c11ba05f0;
@@ -33,7 +33,7 @@ contract TestBTCRelay {
     Assert.equal(relay.dblShaFlip(data_0), sha_0, "dblShaFlip should return reversed double sha256");
     Assert.equal(relay.dblShaFlip(data_1), sha_1, "dblShaFlip should return reversed double sha256");
     Assert.equal(relay.dblShaFlip(data_2), sha_2, "dblShaFlip should return reversed double sha256");
-    */
-  }
 
+  }
+  */
 }
