@@ -33,7 +33,7 @@ contract TestBTCRelay {
     Assert.equal(relay.dblShaFlip(data_0), sha_0, "dblShaFlip should return reversed double sha256");
     Assert.equal(relay.dblShaFlip(data_1), sha_1, "dblShaFlip should return reversed double sha256");
     Assert.equal(relay.dblShaFlip(data_2), sha_2, "dblShaFlip should return reversed double sha256");
-
+    */
   }
-  */
+
 }
