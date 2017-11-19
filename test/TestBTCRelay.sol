@@ -20,12 +20,12 @@ contract TestBTCRelay {
   }
 
   function testDblShaFlip() {
-  
+
     BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
     bytes32 sha_0 = 0x8c14f0db3df150123e6f3dbbf30f8b955a8249b62ac1d1ff16284aefa3d06d87;
     Assert.equal(relay.dblShaFlip(hex"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff08044c86041b020602ffffffff0100f2052a010000004341041b0e8c2567c12536aa13357b79a073dc4444acb83c4ec7a0e2f99dd7457516c5817242da796924ca4e99947d087fedf9ce467cb9f7c6287078f801df276fdf84ac00000000"), sha_0, "dblShaFlip should return reversed double sha256");
   }
-  
+
   function testTargetFromBits() {
     BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
 
@@ -65,6 +65,20 @@ contract TestBTCRelay {
 
     bytes32 result = b.computeMerkle(txHash, txIndex, sibling);
     Assert.equal(result, expMerkle, "Result should equal the example merkle");
+
+
+    bytes32 internalHash = 0xccdafb73d8dcd0173d5d5c3c9a0770d0b3953db889dab99ef05b1907518cb815;
+    bytes32[] memory sibling2 = new bytes32[](1);
+    sibling2[0] = sibling[1];
+    result = b.computeMerkle(internalHash, txIndex, sibling2);
+    Assert.equal(result, expMerkle, "Result internal should equal example merkle");
+
+    txHash = 0xb86f5ef1da8ddbdb29ec269b535810ee61289eeac7bf2b2523b494551f03897c;
+    bytes32[] memory sibling3 = new bytes32[](1);
+    sibling3[0] = 0x80c6f121c3e9fe0a59177e49874d8c703cbadee0700a782e4002e87d862373c6;
+    result = b.computeMerkle(txHash, txIndex, sibling3);
+    expMerkle = 0x5140e5972f672bf8e81bc189894c55a410723b095716eaeec845490aed785f0e;
+    Assert.equal(result, expMerkle, "Test from BTC block 99997");
   }
 
 }

@@ -31,10 +31,10 @@ contract BTCRelay {
       uint256 sideOfSibling = txIndex % 2;
 
       if (sideOfSibling == 1) {
-        merkleRoot = sha256(sha256(proofHex, merkleRoot));
+        merkleRoot = flip32(sha256(sha256(flip32(proofHex), flip32(merkleRoot))));
       }
       else{
-        merkleRoot = sha256(sha256(merkleRoot, proofHex));
+        merkleRoot = flip32(sha256(sha256(flip32(merkleRoot), flip32(proofHex))));
       }
 
       txIndex = txIndex / 2;
