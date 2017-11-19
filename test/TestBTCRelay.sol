@@ -43,4 +43,13 @@ contract TestBTCRelay {
     Assert.equal(relay.targetFromBits(bit3), result3, "targetFromBits does not pass this test");
   }
 
+  function testGetPrevBlock() {
+  	BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
+    bytes memory header = hex"02000000b6ff0b1b1680a2862a30ca44d346d9e8910d334beb48ca0c00000000000000009d10aa52ee949386ca9385695f04ede270dda20810decd12bc9b048aaab3147124d95a5430c31b18fe9f0864";
+    bytes32 res = relay.getPrevBlock(header);
+    Assert.equal(res, 0xb6ff0b1b1680a2862a30ca44d346d9e8910d334beb48ca0c0000000000000000, "getTPrevBlock");
+
+
+  }
+
 }

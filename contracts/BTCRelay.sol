@@ -45,4 +45,16 @@ contract BTCRelay {
       return flip32(sha256(sha256(data)));
   }
 
+  // get parent of block
+  function getPrevBlock(bytes header) returns (bytes32) {
+    // TODO: reimplement as taking in block header
+    bytes32 tmp;
+    assembly {
+      tmp := mload(add(header, 36))
+    }
+
+    return tmp;
+  }
+
+
 }
