@@ -52,4 +52,11 @@ contract TestBTCRelay {
 
   }
 
+  function testGetTimestamp () {
+    BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
+    //bytes memory header = [byte(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xab, 0xcd, 0xef, 0x12, 0,0,0,0,0,0,0,0];
+    bytes memory header = hex"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000abcdef120000000000000000";
+    uint res = relay.getTimestamp(header);
+    Assert.equal(res, 0xabcdef12, "getTimestamp");
+  }
 }

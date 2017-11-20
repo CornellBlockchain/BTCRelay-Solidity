@@ -57,4 +57,12 @@ contract BTCRelay {
   }
 
 
+  function getTimestamp(bytes header) public constant returns (uint){
+    uint tmp;
+    assembly {
+      tmp := mload(add(header, 100))
+    }
+    return tmp >> 224;
+  }
+
 }
