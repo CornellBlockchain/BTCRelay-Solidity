@@ -73,9 +73,10 @@ contract TestBTCRelay {
     result = b.computeMerkle(internalHash, txIndex, sibling2);
     Assert.equal(result, expMerkle, "Result internal should equal example merkle");
 
-    txHash = 0xb86f5ef1da8ddbdb29ec269b535810ee61289eeac7bf2b2523b494551f03897c;
+    txHash = 0x80c6f121c3e9fe0a59177e49874d8c703cbadee0700a782e4002e87d862373c6;
     bytes32[] memory sibling3 = new bytes32[](1);
-    sibling3[0] = 0x80c6f121c3e9fe0a59177e49874d8c703cbadee0700a782e4002e87d862373c6;
+    txIndex = 1;
+    sibling3[0] = 0xb86f5ef1da8ddbdb29ec269b535810ee61289eeac7bf2b2523b494551f03897c;
     result = b.computeMerkle(txHash, txIndex, sibling3);
     expMerkle = 0x5140e5972f672bf8e81bc189894c55a410723b095716eaeec845490aed785f0e;
     Assert.equal(result, expMerkle, "Test from BTC block 99997");
