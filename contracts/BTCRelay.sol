@@ -20,7 +20,29 @@ contract BTCRelay {
 
   // computeMerkle(txHash, txIndex, siblings) computes the Merkle root of the
   // block that the transaction corresponding to txHash was included in.
-  function computeMerkle(bytes32 txHash, uint txIndex, bytes32[] siblings) pure returns (bytes32 merkleRoot){}
+  function computeMerkle(bytes32 txHash, uint txIndex, bytes32[] siblings) pure returns (bytes32 merkleRoot){
+    merkleRoot = txHash;
+    uint256 proofLen = siblings.length;
+
+    uint256 i = 0;
+    while (i < proofLen){
+      bytes32 proofHex = siblings[i];
+
+      uint256 sideOfSibling = txIndex % 2;
+
+      if (sideOfSibling == 1) {
+        merkleRoot = flip32(sha256(sha256(flip32(proofHex), flip32(merkleRoot))));
+      }
+      else{
+        merkleRoot = flip32(sha256(sha256(flip32(merkleRoot), flip32(proofHex))));
+      }
+
+      txIndex = txIndex / 2;
+      i = i + 1;
+    }
+
+    return merkleRoot;
+  }
 
   // Computes the target from the compressed "bits" form
   // https://bitcoin.org/en/developer-reference#target-nbits
