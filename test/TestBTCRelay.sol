@@ -89,4 +89,18 @@ contract TestBTCRelay {
     uint res = relay.getTimestamp(header);
     Assert.equal(res, 0xabcdef12, "getTimestamp");
   }
+
+  function testGetVersionNo(){
+    BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
+    bytes memory header = hex"f01dab1e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f01dab1e";
+    uint version = relay.getVersionNo(header);
+    Assert.equal(version, 0xf01dab1e, "getVersionNo");
+  }
+
+  function testGetNonce(){
+    BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
+    bytes memory header = hex"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c105e7edc105e7ed";
+    uint nonce = relay.getNonce(header);
+    Assert.equal(nonce, 0xc105e7ed, "getNonce");
+  }
 }
