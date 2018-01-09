@@ -87,4 +87,20 @@ contract BTCRelay {
     return tmp >> 224;
   }
 
+  function getVersionNo(bytes header) public constant returns (uint){
+    uint tmp;
+    assembly {
+      tmp := mload(add(header,32))
+    }
+    return tmp >> 224;
+  }
+
+  function getNonce(bytes header) public constant returns(uint){
+    uint tmp;
+    assembly{
+      tmp := mload(add(header, 108))
+    }
+    return tmp >> 224;
+  }
+
 }
