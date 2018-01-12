@@ -2,6 +2,8 @@ pragma solidity ^0.4.18;
 
 contract BTCRelay {
 
+  bool initialized = false;
+
   struct Header {
     uint32 version;
     bytes32 prevBlock;
@@ -9,6 +11,7 @@ contract BTCRelay {
     uint32 time;
     uint32 nBits;
     uint32 nonce;
+    uint32 height;
   }
 
   mapping(bytes32 => Header) public blockHeaders; // Maps block hashes to headers
@@ -16,7 +19,10 @@ contract BTCRelay {
   event partialFlip(bytes32 data);
   // storeBlockHeader(header) pareses a length 80 bytes and stores the resulting
   // Header struct in the blockHeaders mapping, where the index is the blockhash
-  function storeBlockHeader(bytes header){}
+
+  function getHeader(bytes32 data) returns (Header) {
+      return blockHeaders[data];
+  }
 
   // computeMerkle(txHash, txIndex, siblings) computes the Merkle root of the
   // block that the transaction corresponding to txHash was included in.
@@ -69,7 +75,6 @@ contract BTCRelay {
 
   // get parent of block
   function getPrevBlock(bytes header) returns (bytes32) {
-    // TODO: reimplement as taking in block header
     bytes32 tmp;
     assembly {
       tmp := mload(add(header, 36))
@@ -90,9 +95,25 @@ contract BTCRelay {
   function getVersionNo(bytes header) public constant returns (uint){
     uint tmp;
     assembly {
-      tmp := mload(add(header,32))
+      tmp := mload(add(header, 32))
     }
     return tmp >> 224;
+  }
+
+  function getNbits(bytes header) public constant returns (uint){
+    uint tmp;
+    assembly {
+      tmp := mload(add(header, 104))
+    }
+    return tmp >> 224;
+  }
+
+  function getMerkleRoot(bytes header) public constant returns (uint){
+    uint tmp;
+    assembly {
+      tmp := mload(add(header, 68))
+    }
+    return tmp;
   }
 
   function getNonce(bytes header) public constant returns(uint){
@@ -101,6 +122,44 @@ contract BTCRelay {
       tmp := mload(add(header, 108))
     }
     return tmp >> 224;
+  }
+
+  function initChain(bytes header, uint32 height){
+    uint32 bits = uint32(flip32(bytes32(getNbits(header))) >> 224);
+    bytes32 target = targetFromBits(bits);
+    bytes32 hash = dblShaFlip(header);
+    if (hash <= target){
+        uint32 nonce = uint32(getNonce(header));
+        bytes32 merkleRoot = bytes32(getMerkleRoot(header));
+        uint32 timestamp = uint32(getTimestamp(header));
+        uint32 version = uint32(getVersionNo(header));
+        bytes32 prevBlock = getPrevBlock(header);
+        blockHeaders[hash] = Header(version, prevBlock, merkleRoot, timestamp, bits, nonce, height);
+        initialized = true;
+    }
+  }
+
+  function storeBlockHeader(bytes header) returns (uint256){
+      bytes32 prevBlock = flip32(getPrevBlock(header));
+      Header storage prevBlockHeader = blockHeaders[prevBlock];
+      if (prevBlockHeader.version != 0){
+        bytes32 hash = dblShaFlip(header);
+        if (blockHeaders[hash].version == 0){
+            uint32 bits = uint32(flip32(bytes32(getNbits(header))) >> 224);
+            bytes32 target = targetFromBits(bits);
+            if (hash <= target){
+                uint32 nonce = uint32(getNonce(header));
+                bytes32 merkleRoot = bytes32(getMerkleRoot(header));
+                uint32 timestamp = uint32(getTimestamp(header));
+                uint32 version = uint32(getVersionNo(header));
+                uint32 height = prevBlockHeader.height + 1;
+                blockHeaders[hash] = Header(version, prevBlock, merkleRoot, timestamp, bits, nonce, height);
+                return height;
+            }
+        }
+        return 0;
+      }
+      return 0;
   }
 
 }
