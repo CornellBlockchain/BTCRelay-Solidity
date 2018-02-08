@@ -47,7 +47,7 @@ contract TestBTCRelay {
   	BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
     bytes memory header = hex"02000000b6ff0b1b1680a2862a30ca44d346d9e8910d334beb48ca0c00000000000000009d10aa52ee949386ca9385695f04ede270dda20810decd12bc9b048aaab3147124d95a5430c31b18fe9f0864";
     bytes32 res = relay.getPrevBlock(header);
-    Assert.equal(res, 0xb6ff0b1b1680a2862a30ca44d346d9e8910d334beb48ca0c0000000000000000, "getTPrevBlock");
+    Assert.equal(res, 0x00000000000000000cca48eb4b330d91e8d946d344ca302a86a280161b0bffb6, "getTPrevBlock");
 
 
   }
@@ -87,20 +87,20 @@ contract TestBTCRelay {
     //bytes memory header = [byte(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xab, 0xcd, 0xef, 0x12, 0,0,0,0,0,0,0,0];
     bytes memory header = hex"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000abcdef120000000000000000";
     uint res = relay.getTimestamp(header);
-    Assert.equal(res, 0xabcdef12, "getTimestamp");
+    Assert.equal(res, 0x12efcdab, "getTimestamp");
   }
 
   function testGetVersionNo(){
     BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
     bytes memory header = hex"f01dab1e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f01dab1e";
     uint version = relay.getVersionNo(header);
-    Assert.equal(version, 0xf01dab1e, "getVersionNo");
+    Assert.equal(version, 0x1eab1df0, "getVersionNo");
   }
 
   function testGetNonce(){
     BTCRelay relay = BTCRelay(DeployedAddresses.BTCRelay());
     bytes memory header = hex"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c105e7edc105e7ed";
     uint nonce = relay.getNonce(header);
-    Assert.equal(nonce, 0xc105e7ed, "getNonce");
+    Assert.equal(nonce, 0xede705c1, "getNonce");
   }
 }
